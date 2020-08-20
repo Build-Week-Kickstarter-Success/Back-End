@@ -12,21 +12,30 @@ exports.seed = function (knex) {
 					username: 'Admin',
 					password: 'waffles',
 					avatar: 'http://somepic.com/pic.jpg',
-					role: 1,
+          role: 1,
+          first_name: "admin",
+          last_name: "admin",
+          email: "someone@email.com"
 				},
 				{
 					id: 2,
 					username: 'Kstarter1',
 					password: 'Kickit112',
 					avatar: 'http://somepic.com/pic.jpg',
-					role: 2,
+          role: 2,
+          first_name: "person",
+          last_name: "personson",
+          email: "perpersonson@email.com"
 				},
 				{
 					id: 3,
 					username: 'Kstarter2',
 					password: 'DontKickIt',
 					avatar: 'http://somepic.com/pic.jpg',
-					role: 2,
+          role: 2,
+          first_name: "monkey",
+          last_name: "potato",
+          email: "potato@email.com"
 				},
 			]);
 		});
