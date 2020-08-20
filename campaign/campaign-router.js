@@ -2,8 +2,8 @@
 
 const router = require('express').Router();
 const Campaign = require('./campaign-model.js');
-const restricted = require("../auth/restricted-middleware.js");
-
+const { rewardsByCampaign } = require('../rewards/rewards-model');
+const restricted = require('../auth/restricted-middleware.js');
 
 router.get('/', restricted, (req, res) => {
 	Campaign.get()
@@ -70,7 +70,7 @@ router.post('/', restricted, (req, res) => {
 		});
 });
 
-router.put('/:id', restricted, validateId(), (req, res) => {
+router.put('/:id', restricted, validateId, (req, res) => {
 	Campaign.update(req.params.id, req.body)
 		.then((camp) => {
 			res.status(200).json(camp);
@@ -79,6 +79,61 @@ router.put('/:id', restricted, validateId(), (req, res) => {
 			res.status(500).json({
 				message: "Can't update for some reason. Here's some info: ",
 				error,
+			});
+		});
+});
+
+router.get('/:id/rewards', restricted, validateId, (req, res, next) => {
+	const { id } = req.params;
+
+	Campaign.rewardsByCampaign(id)
+		.then((rewards) => {
+			if (rewards.length) {
+				res.json(rewards);
+			} else {
+				res
+					.status(404)
+					.json({ message: 'could not find rewards for campaign' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to get rewards', err });
+		});
+});
+
+router.get('/:id/updates', restricted, validateId, (req, res, next) => {
+	const { id } = req.params;
+
+	Campaign.updatesByCampaign(id)
+		.then((upd) => {
+			if (upd.length) {
+				res.json(upd);
+			} else {
+				res
+					.status(404)
+					.json({ message: 'could not find updates for campaign' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to get updates', err });
+		});
+});
+
+router.get('/:id/rewardupdate', restricted, validateId, (req, res, next) => {
+	const { id } = req.params;
+
+	Campaign.RandUByCampaign(id)
+		.then((ru) => {
+			if (ru.length) {
+				res.json(ru);
+			} else {
+				res.status(404).json({ message: 'No Rewards nor Updates found.' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: 'failed to get infomation. You sure this exists? ',
+				err,
 			});
 		});
 });

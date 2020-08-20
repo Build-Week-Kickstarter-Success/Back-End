@@ -9,6 +9,7 @@ module.exports = {
 	findById,
 	remove,
 	update,
+	
 };
 
 function find() {
@@ -43,3 +44,4 @@ function update(id, changes) {
 		.update(changes)
 		.then((count) => (count > 0 ? get(id) : null));
 }
+
