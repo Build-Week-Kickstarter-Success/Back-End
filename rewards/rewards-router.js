@@ -70,23 +70,49 @@ router.post('/', restricted, (req, res) => {
 		});
 });
 
-router.put('/:id', restricted, validateId(), (req, res) => {
-	Rewards.update(req.params.id, req.body)
-		.then((reward) => {
-			res.status(200).json(reward);
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const changes = req.body;
+
+	Rewards.findById(id)
+		.then((rew) => {
+			if (rew) {
+				Rewards.update(changes, id).then((updatedReward) => {
+					res.json(updatedReward);
+				});
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find Reward with given id' });
+			}
 		})
-		.catch((error) => {
-			res.status(500).json({
-				message: "Can't update for some reason. Here's some info: ",
-				error,
-			});
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to update Reward' });
+		});
+});
+
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+
+	Rewards.remove(id)
+		.then((deleted) => {
+			if (deleted) {
+				res.json({ removed: deleted });
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find reward with given id' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to delete reward' });
 		});
 });
 
 function validateId() {
 	return (req, res, next) => {
 		if (req.params.id) {
-			Rewards.get(req.params.id)
+			Rewards.find(req.params.id)
 				.then((reward) => {
 					if (reward) {
 						req.reward = reward;

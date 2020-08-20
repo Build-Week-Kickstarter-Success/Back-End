@@ -38,10 +38,12 @@ function remove(id) {
 	return db('rewards').where('id', id).del();
 }
 
-function update(id, changes) {
-	return db('rewards')
-		.where('id', id)
-		.update(changes)
-		.then((count) => (count > 0 ? get(id) : null));
-}
+function update(changes, id) {
+    return db("rewards")
+    .where({id})
+    .update(changes)
+    .then(count => {
+        return findById(id);
+    })
+    }
 
