@@ -26,7 +26,7 @@ server.use(express.json());
 server.use('/api/auth', authRouter);
 server.use('/api/users', restricted, checkRole(1), usersRouter);
 
-server.use('/api/campaign', restricted, campaignRouter);
+server.use('/api/campaign', campaignRouter);
 server.use('/api/rewards', restricted, rewardsRouter);
 server.use('/api/updates', restricted, updRouter);
 server.use('/api/prediction', restricted, PredictionRouter)

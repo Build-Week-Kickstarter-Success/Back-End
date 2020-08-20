@@ -10,7 +10,7 @@ exports.seed = function (knex) {
 				{
 					id: 1,
 					username: 'Admin',
-					password: 'waffles',
+					password: '$2y$12$BC/C/bReRC8RRI3mjbYoj.A5PfnfHp9WL//n2ca/sHUqHpQ/6T7Zi',
 					avatar: 'http://somepic.com/pic.jpg',
           role: 1,
           first_name: "admin",

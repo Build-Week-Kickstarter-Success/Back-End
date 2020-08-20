@@ -15,7 +15,7 @@ module.exports = {
 };
 
 function find() {
-	return db('campaign').select('id', 'campaign').orderBy('id');
+	return db('campaign');
 }
 
 function findBy(filter) {
@@ -71,3 +71,4 @@ function RandUByCampaign(id) {
 		)
 		.select('r.name', 'r.description', 'u.name', 'u.description');
 }
+

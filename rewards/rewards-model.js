@@ -13,7 +13,7 @@ module.exports = {
 };
 
 function find() {
-	return db('rewards').select('id', 'rewards').orderBy('id');
+	return db('rewards');
 }
 
 function findBy(filter) {

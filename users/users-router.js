@@ -16,7 +16,7 @@ router.get('/', restricted, checkRole(1), (req, res) => {
 
 router.get('/:id', restricted, checkRole(1), (req, res) => {
 	const { id } = req.params;
-	Users.get(id)
+	Users.find(id)
 		.then((user) => {
 			if (user) {
 				req.user = user;

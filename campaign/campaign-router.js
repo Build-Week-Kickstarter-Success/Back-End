@@ -1,12 +1,12 @@
 /** @format */
 
 const router = require('express').Router();
+
 const Campaign = require('./campaign-model.js');
-const { rewardsByCampaign } = require('../rewards/rewards-model');
 const restricted = require('../auth/restricted-middleware.js');
 
-router.get('/', restricted, (req, res) => {
-	Campaign.get()
+router.get('/', (req, res) => {
+	Campaign.find()
 		.then((campaign) => {
 			res.status(200).json(campaign);
 		})
@@ -20,7 +20,7 @@ router.get('/', restricted, (req, res) => {
 
 router.get('/:id', restricted, (req, res) => {
 	const { id } = req.params;
-	Campaign.get(id)
+	Campaign.find(id)
 		.then((camp) => {
 			if (camp) {
 				req.camp = camp;

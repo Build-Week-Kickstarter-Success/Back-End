@@ -6,7 +6,7 @@ const restricted = require("../auth/restricted-middleware.js");
 
 
 router.get('/', restricted, (req, res) => {
-	Updates.get()
+	Updates.find()
 		.then((upd) => {
 			res.status(200).json(upd);
 		})

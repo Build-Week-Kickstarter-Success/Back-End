@@ -6,7 +6,7 @@ const restricted = require("../auth/restricted-middleware.js");
 
 
 router.get('/', restricted, (req, res) => {
-	Rewards.get()
+	Rewards.find()
 		.then((rewards) => {
 			res.status(200).json(rewards);
 		})
@@ -20,7 +20,7 @@ router.get('/', restricted, (req, res) => {
 
 router.get('/:id', restricted, (req, res) => {
 	const { id } = req.params;
-	Rewards.get(id)
+	Rewards.findById(id)
 		.then((reward) => {
 			if (reward) {
 				req.reward = reward;
