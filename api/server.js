@@ -14,6 +14,7 @@ const usersRouter = require('../users/users-router');
 const campaignRouter = require('../campaign/campaign-router.js');
 const rewardsRouter = require('../rewards/rewards-router');
 const updRouter = require('../updates/updates-router');
+const PredictionRouter = require('../prediction/prediction-router')
 
 const server = express();
 
@@ -28,6 +29,7 @@ server.use('/api/users', restricted, checkRole(1), usersRouter);
 server.use('/api/campaign', restricted, campaignRouter);
 server.use('/api/rewards', restricted, rewardsRouter);
 server.use('/api/updates', restricted, updRouter);
+server.use('/api/prediction', restricted, PredictionRouter)
 
 
 server.get('/', (req, res) => {

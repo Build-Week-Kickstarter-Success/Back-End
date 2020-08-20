@@ -8,21 +8,20 @@ module.exports = {
 	findBy,
 	findById,
 	remove,
-	update,
-	
+    update,
 };
 
 function find() {
-	return db('updates').select('id', 'updates').orderBy('id');
+	return db('prediction').select('id', 'prediction').orderBy('id');
 }
 
 function findBy(filter) {
-	return db('updates').where(filter).orderBy('id');
+	return db('prediction').where(filter).orderBy('id');
 }
 
-async function add(updates) {
+async function add(prediction) {
 	try {
-		const [id] = await db('updates').insert(updates, 'id');
+		const [id] = await db('prediction').insert(prediction, 'id');
 
 		return findById(id);
 	} catch (error) {
@@ -31,15 +30,15 @@ async function add(updates) {
 }
 
 function findById(id) {
-	return db('updates').where({ id }).first();
+	return db('prediction').where({ id }).first();
 }
 
 function remove(id) {
-	return db('updates').where('id', id).del();
+	return db('prediction').where('id', id).del();
 }
 
 function update(id, changes) {
-	return db('updates')
+	return db('prediction')
 		.where('id', id)
 		.update(changes)
 		.then((count) => (count > 0 ? get(id) : null));

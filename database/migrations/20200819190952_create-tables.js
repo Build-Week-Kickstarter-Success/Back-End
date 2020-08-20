@@ -56,7 +56,18 @@ exports.up = function (knex) {
 				.onDelete('CASCADE')
 				.onUpdate('CASCADE');
 			tbl.string('description').notNullable();
-		});
+        })
+        .createTable('prediction', tbl => {
+            tbl.increments();
+            tbl
+				.integer('campaign_id')
+				.unsigned()
+				.notNullable()
+				.references('campaign.id')
+				.onDelete('CASCADE')
+				.onUpdate('CASCADE');
+            tbl.boolean('success').defaultTo(false);
+        });
 };
 
 exports.down = function (knex) {
@@ -65,5 +76,6 @@ exports.down = function (knex) {
 		.dropTableIfExists('users')
 		.dropTableIfExists('campaign')
 		.dropTableIfExists('rewards')
-		.dropTableIfExists('updates');
+        .dropTableIfExists('updates')
+        .dropTableIfExists('prediction');
 };
