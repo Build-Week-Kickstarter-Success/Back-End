@@ -40,12 +40,14 @@ function remove(id) {
 	return db('campaign').where('id', id).del();
 }
 
-function update(id, changes) {
-	return db('campaign')
-		.where('id', id)
-		.update(changes)
-		.then((count) => (count > 0 ? get(id) : null));
-}
+function update(changes, id) {
+    return db("campaign")
+    .where({id})
+    .update(changes)
+    .then(count => {
+        return findById(id);
+    })
+    }
 
 function rewardsByCampaign(id) {
 	return db('campaign as c')

@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', restricted, (req, res) => {
 	const { id } = req.params;
-	Campaign.find(id)
+	Campaign.findById(id)
 		.then((camp) => {
 			if (camp) {
 				req.camp = camp;
@@ -43,7 +43,7 @@ router.get('/:id', restricted, (req, res) => {
 
 router.post('/', restricted, (req, res) => {
 	const CampInfo = req.body;
-	Campaign.insert(CampInfo)
+	Campaign.add(CampInfo)
 		.then(() => {
 			if (!CampInfo.name) {
 				// throw new Error
@@ -64,26 +64,52 @@ router.post('/', restricted, (req, res) => {
 		.catch((err) => {
 			console.log(err);
 			res.status(500).json({
-				error: 'There was an error while saving the campaing to the database: ',
+				error: 'There was an error while saving the campaign to the database: ',
 				err,
 			});
 		});
 });
 
-router.put('/:id', restricted, validateId, (req, res) => {
-	Campaign.update(req.params.id, req.body)
-		.then((camp) => {
-			res.status(200).json(camp);
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+
+	Campaign.remove(id)
+		.then((deleted) => {
+			if (deleted) {
+				res.json({ removed: deleted });
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find campaign with given id' });
+			}
 		})
-		.catch((error) => {
-			res.status(500).json({
-				message: "Can't update for some reason. Here's some info: ",
-				error,
-			});
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to delete campaign' });
 		});
 });
 
-router.get('/:id/rewards', restricted, validateId, (req, res, next) => {
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const changes = req.body;
+
+	Campaign.findById(id)
+		.then((camp) => {
+			if (camp) {
+				Campaign.update(changes, id).then((updatedCampaign) => {
+					res.json(updatedCampaign);
+				});
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find Campaign with given id' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to update Campaign' });
+		});
+});
+
+router.get('/:id/rewards', restricted, (req, res, next) => {
 	const { id } = req.params;
 
 	Campaign.rewardsByCampaign(id)

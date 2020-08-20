@@ -43,7 +43,7 @@ router.get('/:id', restricted, (req, res) => {
 
 router.post('/', restricted, (req, res) => {
 	const UpdInfo = req.body;
-	Updates.insert(UpdInfo)
+	Updates.add(UpdInfo)
 		.then(() => {
 			if (!UpdInfo.name) {
 				// throw new Error

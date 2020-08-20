@@ -43,7 +43,7 @@ router.get('/:id', restricted, (req, res) => {
 
 router.post('/', restricted, (req, res) => {
 	const rewardInfo = req.body;
-	Rewards.insert(rewardInfo)
+	Rewards.add(rewardInfo)
 		.then(() => {
 			if (!rewardInfo.name) {
 				// throw new Error
