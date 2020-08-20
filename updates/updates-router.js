@@ -20,7 +20,7 @@ router.get('/', restricted, (req, res) => {
 
 router.get('/:id', restricted, (req, res) => {
 	const { id } = req.params;
-	Updates.get(id)
+	Updates.findById(id)
 		.then((upd) => {
 			if (upd) {
 				req.upd = upd;
@@ -70,23 +70,49 @@ router.post('/', restricted, (req, res) => {
 		});
 });
 
-router.put('/:id', restricted, validateId(), (req, res) => {
-	Updates.update(req.params.id, req.body)
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const changes = req.body;
+
+	Updates.findById(id)
 		.then((upd) => {
-			res.status(200).json(upd);
+			if (upd) {
+				Updates.update(changes, id).then((updatedupd) => {
+					res.json(updatedupd);
+				});
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find Update with given id' });
+			}
 		})
-		.catch((error) => {
-			res.status(500).json({
-				message: "Can't update for some reason. Here's some info: ",
-				error,
-			});
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to update Update' });
+		});
+});
+
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+
+	Updates.remove(id)
+		.then((deleted) => {
+			if (deleted) {
+				res.json({ removed: deleted });
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find update with given id' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to delete update' });
 		});
 });
 
 function validateId() {
 	return (req, res, next) => {
 		if (req.params.id) {
-			Updates.get(req.params.id)
+			Updates.find(req.params.id)
 				.then((upd) => {
 					if (upd) {
 						req.upd = upd;

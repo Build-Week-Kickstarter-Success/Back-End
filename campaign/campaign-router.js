@@ -51,7 +51,6 @@ router.post('/', restricted, (req, res) => {
 					errorMessage: 'Please provide name and description for the post.',
 				});
 			}
-
 			if (!CampInfo.description) {
 				// throw new Error
 				res.error(400).json({

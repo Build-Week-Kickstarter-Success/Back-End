@@ -6,13 +6,13 @@ const restricted = require("../auth/restricted-middleware.js");
 
 
 router.get('/', restricted, (req, res) => {
-	Pred.get()
+	Pred.find()
 		.then((pred) => {
 			res.status(200).json(pred);
 		})
 		.catch((err) => {
 			res.status(500).json({
-				message: "Can't locate the Rewards. Here's why: ",
+				message: "Can't locate the Prediction. Here's why: ",
 				err,
 			});
 		});
@@ -20,7 +20,7 @@ router.get('/', restricted, (req, res) => {
 
 router.get('/:id', restricted, (req, res) => {
 	const { id } = req.params;
-	Rewards.get(id)
+	Pred.findById(id)
 		.then((pred) => {
 			if (pred) {
 				req.pred = pred;
@@ -28,7 +28,7 @@ router.get('/:id', restricted, (req, res) => {
 			} else {
 				res.status(404).json({
 					message:
-						'The ID of this Pred is non-existant. Please check it and try again.',
+						'The ID of this Prediction is non-existant. Please check it and try again.',
 				});
 			}
 		})
@@ -43,22 +43,14 @@ router.get('/:id', restricted, (req, res) => {
 
 router.post('/', restricted, (req, res) => {
 	const predInfo = req.body;
-	Pred.insert(predInfo)
+	Pred.add(predInfo)
 		.then(() => {
-			if (!predInfo.name) {
+			if (!predInfo.campaign_id) {
 				// throw new Error
 				res.error(400).json({
 					errorMessage: 'Please provide name and description for the post.',
 				});
 			}
-
-		if (!predInfo.description) {
-				// throw new Error
-				res.error(400).json({
-					errorMessage: 'Please provide name and description for the post.',
-				});
-			}
-
 			res.status(201).json(predInfo);
 		})
 		.catch((err) => {
@@ -70,16 +62,42 @@ router.post('/', restricted, (req, res) => {
 		});
 });
 
-router.put('/:id', restricted, validateId(), (req, res) => {
-	Pred.update(req.params.id, req.body)
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const changes = req.body;
+
+	Pred.findById(id)
 		.then((pred) => {
-			res.status(200).json(pred);
+			if (pred) {
+				Pred.update(changes, id).then((updatedPrediction) => {
+					res.json(updatedPrediction);
+				});
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find said Prediction with given id' });
+			}
 		})
-		.catch((error) => {
-			res.status(500).json({
-				message: "Can't update for some reason. Here's some info: ",
-				error,
-			});
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to update Prediction' });
+		});
+});
+
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+
+	Pred.remove(id)
+		.then((deleted) => {
+			if (deleted) {
+				res.json({ removed: deleted });
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find prediction with given id' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to delete prediction' });
 		});
 });
 

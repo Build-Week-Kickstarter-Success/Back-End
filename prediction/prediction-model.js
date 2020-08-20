@@ -12,7 +12,7 @@ module.exports = {
 };
 
 function find() {
-	return db('prediction').select('id', 'prediction').orderBy('id');
+	return db('prediction');
 }
 
 function findBy(filter) {
@@ -37,10 +37,12 @@ function remove(id) {
 	return db('prediction').where('id', id).del();
 }
 
-function update(id, changes) {
-	return db('prediction')
-		.where('id', id)
-		.update(changes)
-		.then((count) => (count > 0 ? get(id) : null));
-}
+function update(changes, id) {
+    return db("prediction")
+    .where({id})
+    .update(changes)
+    .then(count => {
+        return findById(id);
+    })
+    }
 
