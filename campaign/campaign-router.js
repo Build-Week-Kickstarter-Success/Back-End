@@ -3,7 +3,9 @@
 const router = require('express').Router();
 
 const Campaign = require('./campaign-model.js');
+const { validateCampaign } = require('../middleware/middleware');
 const restricted = require('../auth/restricted-middleware.js');
+const Prod = require('../prediction/prediction-model');
 
 router.get('/', (req, res) => {
 	Campaign.find()
@@ -41,25 +43,12 @@ router.get('/:id', restricted, (req, res) => {
 		});
 });
 
-router.post('/', restricted, (req, res) => {
+router.post('/', restricted, validateCampaign, (req, res, next) => {
 	const CampInfo = req.body;
 	Campaign.add(CampInfo)
-		.then(() => {
-			if (!CampInfo.name) {
-				// throw new Error
-				res.error(400).json({
-					errorMessage: 'Please provide name and description for the post.',
-				});
-			}
-			if (!CampInfo.description) {
-				// throw new Error
-				res.error(400).json({
-					errorMessage: 'Please provide name and description for the post.',
-				});
-			}
-
-			res.status(201).json(CampInfo);
-		})
+		.then((camp) => {
+            res.status(201).json(camp);
+        })
 		.catch((err) => {
 			console.log(err);
 			res.status(500).json({
