@@ -115,7 +115,7 @@ router.get('/:id/rewards', restricted, (req, res, next) => {
 		});
 });
 
-router.get('/:id/updates', restricted, validateId, (req, res, next) => {
+router.get('/:id/updates', restricted, (req, res, next) => {
 	const { id } = req.params;
 
 	Campaign.updatesByCampaign(id)
@@ -133,7 +133,7 @@ router.get('/:id/updates', restricted, validateId, (req, res, next) => {
 		});
 });
 
-router.get('/:id/rewardupdate', restricted, validateId, (req, res, next) => {
+router.get('/:id/rewardupdate', restricted, (req, res, next) => {
 	const { id } = req.params;
 
 	Campaign.RandUByCampaign(id)
