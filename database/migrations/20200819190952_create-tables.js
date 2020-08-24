@@ -31,6 +31,12 @@ exports.up = function (knex) {
 			tbl.string('currency').notNullable();
 			tbl.float('goal').notNullable();
 			tbl.float('length').notNullable();
+			tbl
+				.integer('user_id')
+				.unsigned()
+				.references('user.id')
+				.onDelete('CASCADE')
+				.onUpdate('CASCADE');
 		})
 		.createTable('rewards', (tbl) => {
 			tbl.increments();
