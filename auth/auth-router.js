@@ -68,7 +68,7 @@ function generateToken(user) {
 		role: user.role,
 	};
 	const options = {
-		expiresIn: '1h',
+		expiresIn: '1d',
 	};
 	const secret = secrets.jwtSecret;
 

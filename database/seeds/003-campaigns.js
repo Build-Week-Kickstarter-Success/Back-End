@@ -17,6 +17,7 @@ exports.seed = function (knex) {
 					currency: 'Dollar',
 					goal: 1200,
 					length: 60,
+					user_id: 1,
 				},
 				{
 					id: 2,
@@ -28,6 +29,7 @@ exports.seed = function (knex) {
 					currency: 'EUR',
 					goal: 160000,
 					length: 190,
+					user_id: 2,
 				},
 				{
 					id: 3,
@@ -39,6 +41,7 @@ exports.seed = function (knex) {
 					currency: 'CAD',
 					goal: 270000000,
 					length: 365,
+					user_id: 3,
 				},
 			]);
 		});
