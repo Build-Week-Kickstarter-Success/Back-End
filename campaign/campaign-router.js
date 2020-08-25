@@ -43,7 +43,7 @@ router.get('/:id', restricted, (req, res) => {
 		});
 });
 
-router.post('/', restricted, validateCampaign, (req, res, next) => {
+router.post('/', (req, res, next) => {
 	const CampInfo = req.body;
 	Campaign.add(CampInfo)
 		.then((camp) => {
