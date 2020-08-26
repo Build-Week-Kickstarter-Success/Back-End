@@ -26,7 +26,7 @@ exports.up = function (knex) {
 			tbl.string('country').notNullable();
 			tbl.string('currency').notNullable();
 			tbl.float('goal').notNullable();
-			tbl.float('length').notNullable();
+			tbl.float('campaign_length').notNullable();
 			tbl.integer('user_id').unsigned().notNullable().references('users.id').onDelete('CASCADE').onUpdate('CASCADE');
 		})
 		.createTable('rewards', (tbl) => {

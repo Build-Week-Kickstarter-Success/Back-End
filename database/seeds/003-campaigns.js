@@ -17,7 +17,7 @@ exports.seed = function (knex) {
 					country: 'US',
 					currency: 'Dollar',
 					goal: 1200,
-					length: 60,
+					campaign_length: 60,
 					user_id: 1,
 				},
 				{
@@ -30,7 +30,7 @@ exports.seed = function (knex) {
 					country: 'IE',
 					currency: 'EUR',
 					goal: 160000,
-					length: 190,
+					campaign_length: 190,
 					user_id: 2,
 				},
 				{
@@ -43,7 +43,7 @@ exports.seed = function (knex) {
 					country: 'CA',
 					currency: 'CAD',
 					goal: 270000000,
-					length: 365,
+					campaign_length: 365,
 					user_id: 3,
 				},
 			]);
