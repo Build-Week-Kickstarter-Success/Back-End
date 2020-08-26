@@ -13,6 +13,7 @@ module.exports = {
 	rewardsByCampaign,
 	updatesByCampaign,
 	RandUByCampaign,
+	predictionByCampaign
 };
 
 function find() {
@@ -62,6 +63,14 @@ function updatesByCampaign(id) {
 		.join('updates as u', 'u.campaign_id', 'c.id')
 		.select('u.name', 'u.description');
 }
+
+function predictionByCampaign(id) {
+	return db('campaign as c')
+		.where('c.id', id)
+		.join('prediction as p', 'p.campaign_id', 'c.id')
+		.select('p.campaign_id', 'p.success');
+}
+
 function RandUByCampaign(id) {
 	return db('campaign as c')
 		.where('c.id', id)

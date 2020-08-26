@@ -133,6 +133,25 @@ router.get('/:id/updates', restricted, validateId, (req, res, next) => {
 		});
 });
 
+router.get('/:id/prediction', restricted, validateId, (req, res, next) => {
+	const { id } = req.params;
+
+	Campaign.predictionByCampaign(id)
+		.then((upd) => {
+			if (upd.length) {
+				res.json(upd);
+			} else {
+				res
+					.status(404)
+					.json({ message: 'could not find predictions for the campaign' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to get updates', err });
+		});
+});
+
+
 router.get('/:id/rewardupdate', restricted, validateId, (req, res, next) => {
 	const { id } = req.params;
 
