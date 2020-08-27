@@ -33,7 +33,9 @@ The Web Back End of the Kickstarter success portion involves creating a database
             3. First Name
             4. Last Name
             5. Email
+
         - Optional
+
             6. Avatar
 
     - What will be sent back
@@ -129,17 +131,21 @@ Kickstarters have Rewards and Updates, and there's no exception to this API.
 Also, you can get the rewards for campaigns by `/api/campaigns/#/rewards`
 and the same for updates by `/api/campaigns/#/updates`
 
+***
+
 ## Testing
 
 The testing suites used are Supertest and Jest. In order to have different environments black boxed from each other, a library called Cross-env is used.
 
 ### server.test.js
 
-The server test file is built to check to make sure that the Database being used is the testing database (location `/database/test.db3`) and ensure that it's a seperate environment from production or development.
+The server test file is built to check to make sure that the Database being used is the testing database (location: `/database/test.db3`) and ensure that it's a seperate environment from production or development.
 
 The next test checks to make sure that an 'ok' status of 200 is sent on access.
 
 An additional check is made to check an open endpoint with a status of 'ok': `/api/campaign.`
+
+Test results passed in all cases.
 
 ### authentication.test.js
 
@@ -148,4 +154,57 @@ At the beginning of each test, the users database is truncated, or cleared, befo
 Two tests for each endpoint for authentication. `/api/auth/register` and `/api/auth/login` which checks both for Json objects and a success response.
 
 All 4 tests involve registering different user profiles to the register endpoint, and two require using the credentials and loging in.
+
+### campaign.test.js
+
+Initialize a user at the begining and have them logged in before anything.
+
+Before each test, clear out campaign table.
+
+Standard CRUD testing for specifically if a campaign can be posted at `/api/campaign`.
+Following that, another test for updating a campaign.
+Finally, deleting a campaign.
+
+Test results passed in all cases.
+
+### prediction.test.js
+
+This test is initialized by truncating the tables of Users, Campaigns, and Predictions to be sure of a clean. Then a User is registered, logged in, and then posts a campaign.
+
+Prediction testing follows the same method that campaign follows. Post a prediction,
+update a prediction, and delete a prediction. Before each test, prediction table is truncated.
+
+Test results passed in all cases.
+
+### rewards.test.js
+
+The same methods used for predictions is present here. Users, Campaigns, and Rewards are truncated. A User is then registered, logged in, and then posts a campaign.
+
+Before each test, rewards is truncated. Post, Update, and Delete are tested.
+
+Test results passed in all cases.
+
+### updates.test.js
+
+Users, Campaigns, and Updates are truncated. A User is registered, logged in, and posts a campaign. Updates are truncated before each test. Post, Update, and Delete are tested.
+
+Test results passed in all cases.
+
+### users.test.js
+
+This one was a bit tricky to test, however it was tested with truncating users. An admin profile was then registered and then logged in. Afterwards, a list of 3 users were registered.
+
+The tests begin with checking for a status of 200 for retrieving a list of users against a `checkRole(1)` for `role: admin` as well as it's restricted pathing.
+The next test involves updating a username and receiving a `OK` status (`200`).
+The final test of this suite involves deleting a user from the list.
+
+Test results passed in all cases.
+
+***
+
+Project for [Lambda School Build Week](lambdaschool.com) - Kickstarter Success
+
+Web-Back-End portion coded: [Michael McLeod](github.com/TheTrabin)
+
+For more information on the entire team, please visit the Marketing Link above.
 

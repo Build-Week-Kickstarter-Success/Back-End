@@ -27,7 +27,7 @@ describe('Predictions Endpoint testing', () => {
         .then(async () => {
             await request(server)
                 .post('/api/auth/login')
-                .send({username: 'Renegade', password: 'p4R4d16m'})
+                .send({username: 'Karma', password: 'p4R4d16m'})
                 .then((res) => {
                     token = res.body.token;
                 })
