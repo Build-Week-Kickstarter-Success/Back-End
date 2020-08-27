@@ -38,7 +38,7 @@ The Web Back End of the Kickstarter success portion involves creating a database
 
     - What will be sent back
         - Success if everything required is in, it should respond back with
-            all information that was sent to it, including a user ID and a Role(default to user)
+            all information that was sent to it, including a user ID and a Role(default to user(`role:2`))
 
 - `/api/auth/login`
     - The endpoint in which a User Logs into the back-end
@@ -119,7 +119,7 @@ Also, you can get predictions tied to campaigns with `api/campaign/#/prediction`
 ## Additional Endpoints not required for MVP
 
 ### Users
-If you're an Admin user (role: 1), You can get a list of users (/api/users)
+If you're an Admin user (`role: 1`), You can get a list of users (`/api/users`)
 Also, as Admin, you can Edit and Delete those users as well, if needed.
 
 ### Rewards and Updates
