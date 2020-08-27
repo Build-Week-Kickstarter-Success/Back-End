@@ -202,9 +202,9 @@ Test results passed in all cases.
 
 ***
 
-Project for [Lambda School Build Week](lambdaschool.com) - Kickstarter Success
+Project for [Lambda School Build Week](https://lambdaschool.com) - Kickstarter Success
 
-Web-Back-End portion coded: [Michael McLeod](github.com/TheTrabin)
+Web-Back-End portion coded: [Michael McLeod](https://github.com/TheTrabin)
 
 For more information on the entire team, please visit the Marketing Link above.
 
