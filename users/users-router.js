@@ -35,4 +35,43 @@ router.get('/:id', restricted, checkRole(1), (req, res) => {
 		);
 });
 
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const changes = req.body;
+
+	Users.findById(id)
+		.then((user) => {
+			if (user) {
+				Users.update(changes, id).then((updatedUser) => {
+					res.json(updatedUser);
+				});
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find User with given id' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to update User' });
+		});
+});
+
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+
+	Users.remove(id)
+		.then((deleted) => {
+			if (deleted) {
+				res.json({ removed: deleted });
+			} else {
+				res
+					.status(404)
+					.json({ message: 'Could not find user with given id' });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ message: 'Failed to delete user' });
+		});
+});
+
 module.exports = router;
