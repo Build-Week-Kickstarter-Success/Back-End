@@ -1,5 +1,5 @@
 const db = require("../database/dbConfig.js");
-const { update } = require("../database/dbConfig.js");
+
 
 module.exports = {
   add,
@@ -7,7 +7,7 @@ module.exports = {
   findBy,
   findById,
   remove,
-  put
+  update
 };
 
 function find() {
@@ -36,9 +36,11 @@ function remove(id) {
   return db('users').where('id', id).del();
 }
 
-function put(id, changes) {
+function update(changes, id) {
   return db("users")
-  .where('id', id)
+  .where({id})
   .update(changes)
-  .then((count) => (count > 0 ? get(id) : null));
-}
+  .then(count => {
+      return findById(id);
+  })
+  }
